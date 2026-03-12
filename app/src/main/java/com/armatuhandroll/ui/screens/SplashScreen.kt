@@ -20,7 +20,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(onNavigateToHome: () -> Unit) {
     LaunchedEffect(Unit) {
-        delay(1000)
+        delay(1200)
         onNavigateToHome()
     }
 
@@ -32,13 +32,26 @@ fun SplashScreen(onNavigateToHome: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Surface(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f), shape = MaterialTheme.shapes.large) {
-                Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 18.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Surface(
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f),
+                shape = MaterialTheme.shapes.large,
+                shadowElevation = 10.dp
+            ) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 20.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     AppTitle()
                     Text(
                         text = "Diseña tu pedido perfecto",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Medium
+                    )
+                    Text(
+                        text = "Ingredientes frescos, combinaciones infinitas.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

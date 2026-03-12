@@ -1,5 +1,6 @@
 package com.armatuhandroll.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -33,47 +34,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import com.armatuhandroll.data.CartItem
 import com.armatuhandroll.data.Product
 import com.armatuhandroll.data.ProductRepository
 import com.armatuhandroll.ui.components.AppBackground
 import com.armatuhandroll.ui.components.PrimaryActionButton
-
-private val GlassCardShape = RoundedCornerShape(24.dp)
-private val GlassCardContainerColor = Color.White.copy(alpha = 0.62f)
-private val GlassCardInnerContainerColor = Color.White.copy(alpha = 0.45f)
-private val GlassCardBorderColor = Color.White.copy(alpha = 0.5f)
-private val GlassCardTextColor = Color(0xFF1E1A17)
-private val GlassCardSecondaryTextColor = Color(0xFF3E342E)
-private val GlassCardTertiaryTextColor = Color(0xFF5A4D45)
-private val GlassCardTextShadow = Shadow(
-    color = Color.Black.copy(alpha = 0.12f),
-    offset = Offset(0f, 1.2f),
-    blurRadius = 3f
-)
-
-private val SectionTitleTextStyle = TextStyle(
-    color = GlassCardTextColor,
-    fontWeight = FontWeight.Bold,
-    fontSize = 20.sp,
-    shadow = GlassCardTextShadow
-)
-
-@Composable
-private fun glassCardColors() = CardDefaults.cardColors(
-    containerColor = GlassCardContainerColor,
-    contentColor = GlassCardTextColor
-)
-
-@Composable
-private fun glassCardElevation() = CardDefaults.cardElevation(defaultElevation = 8.dp)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,18 +64,20 @@ fun ProductCustomizationScreen(
             containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0f),
             topBar = {
                 TopAppBar(
-                    title = { Text(product.name) },
-                    navigationIcon = { TextButton(onClick = onBack) { Text("Volver") } }
+                    title = { Text(product.name, style = MaterialTheme.typography.titleLarge) },
+                    navigationIcon = { TextButton(onClick = onBack) { Text("Volver") } },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
+                    )
                 )
             },
             bottomBar = {
-                Surface(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)) {
-                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(
-                            text = "Total: $${totalPrice}",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold
-                        )
+                Surface(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f), shadowElevation = 10.dp) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text("Total: $$totalPrice", style = MaterialTheme.typography.headlineLarge)
                         PrimaryActionButton(
                             text = "Agregar al carrito",
                             onClick = {
@@ -132,68 +100,46 @@ fun ProductCustomizationScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                    .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
-                    Card(
-                        colors = glassCardColors(),
-                        shape = GlassCardShape,
-                        border = BorderStroke(1.dp, GlassCardBorderColor),
-                        elevation = glassCardElevation()
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(
-                                text = product.description,
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = GlassCardTextColor,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            Text(
-                                text = "Incluye 1 proteína + 1 base + 1 vegetal",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = GlassCardSecondaryTextColor,
-                                modifier = Modifier.padding(top = 6.dp)
-                            )
-                            Text(
-                                text = "Extras: proteína/base +$1000 · vegetal +$500",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = GlassCardSecondaryTextColor
-                            )
-                        }
+                    PremiumSectionCard {
+                        Text(product.description, style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            text = "Incluye 1 proteína + 1 base + 1 vegetal.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = "Extras: proteína/base +$1000 · vegetal +$500",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
 
                 if (product.supportsNoRice) {
                     item {
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = GlassCardInnerContainerColor),
-                            border = BorderStroke(1.dp, GlassCardBorderColor.copy(alpha = 0.85f)),
-                            shape = RoundedCornerShape(20.dp),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
-                        ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    "Base fija: arroz",
-                                    fontWeight = FontWeight.Bold,
-                                    color = GlassCardTextColor
-                                )
-                                Text(
-                                    "Puedes marcar Sin arroz para retirarlo",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = GlassCardSecondaryTextColor
-                                )
+                        PremiumSectionCard {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text("Base fija: arroz", style = MaterialTheme.typography.titleSmall)
+                                    Text(
+                                        "Puedes quitarlo marcando la opción.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text("Sin arroz", style = MaterialTheme.typography.bodyMedium)
+                                    Checkbox(checked = noRice, onCheckedChange = { noRice = it })
+                                }
                             }
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("Sin arroz", color = GlassCardTextColor, fontWeight = FontWeight.SemiBold)
-                                Checkbox(checked = noRice, onCheckedChange = { noRice = it })
-                            }
-                        }
                         }
                     }
                 }
@@ -207,6 +153,7 @@ fun ProductCustomizationScreen(
                         extraPrice = 1000
                     )
                 }
+
                 item {
                     IngredientSelectorSection(
                         title = "Base",
@@ -216,6 +163,7 @@ fun ProductCustomizationScreen(
                         extraPrice = 1000
                     )
                 }
+
                 item {
                     IngredientSelectorSection(
                         title = "Vegetal",
@@ -227,14 +175,20 @@ fun ProductCustomizationScreen(
                 }
 
                 item {
-                    OrderPreviewCard(
-                        selectedProteins = selectedProteins,
-                        selectedBases = selectedBases,
-                        selectedVegetables = selectedVegetables,
-                        noRice = noRice,
-                        showNoRice = product.supportsNoRice,
-                        extrasPrice = extrasPrice
-                    )
+                    PremiumSectionCard(modifier = Modifier.padding(bottom = 12.dp)) {
+                        Text("Resumen del pedido", style = MaterialTheme.typography.titleMedium)
+                        Text("Proteína: ${selectedProteins.joinToString().ifBlank { "Sin selección" }}")
+                        Text("Base: ${selectedBases.joinToString().ifBlank { "Sin selección" }}")
+                        Text("Vegetal: ${selectedVegetables.joinToString().ifBlank { "Sin selección" }}")
+                        if (product.supportsNoRice) {
+                            Text(if (noRice) "Arroz: Sin arroz" else "Arroz: Incluido")
+                        }
+                        Text(
+                            "Subtotal extras: $$extrasPrice",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
                 }
             }
         }
@@ -250,91 +204,60 @@ private fun IngredientSelectorSection(
     selectedOptions: MutableList<String>,
     extraPrice: Int
 ) {
-    Card(
-        colors = glassCardColors(),
-        shape = GlassCardShape,
-        border = BorderStroke(1.dp, GlassCardBorderColor),
-        elevation = glassCardElevation()
-    ) {
-        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(title, style = SectionTitleTextStyle)
-            Text(
-                subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = GlassCardSecondaryTextColor,
-                fontWeight = FontWeight.SemiBold
-            )
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                options.forEach { option ->
-                    val isSelected = selectedOptions.contains(option)
-                    FilterChip(
+    PremiumSectionCard {
+        Text(title, style = MaterialTheme.typography.titleLarge)
+        Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            options.forEach { option ->
+                val isSelected = selectedOptions.contains(option)
+                FilterChip(
+                    selected = isSelected,
+                    onClick = {
+                        if (isSelected) selectedOptions.remove(option) else selectedOptions.add(option)
+                    },
+                    label = { Text(option) },
+                    border = FilterChipDefaults.filterChipBorder(
+                        enabled = true,
                         selected = isSelected,
-                        onClick = {
-                            if (isSelected) selectedOptions.remove(option) else selectedOptions.add(option)
-                        },
-                        label = { Text(option) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.94f),
-                            selectedLabelColor = GlassCardTextColor,
-                            labelColor = GlassCardTextColor.copy(alpha = 0.9f),
-                            containerColor = GlassCardInnerContainerColor
-                        )
+                        borderColor = MaterialTheme.colorScheme.outline
+                    ),
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedLabelColor = MaterialTheme.colorScheme.onSurface,
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                        labelColor = MaterialTheme.colorScheme.onSurface
                     )
-                }
-            }
-            AssistChip(
-                onClick = {},
-                enabled = false,
-                label = { Text("Extras desde la segunda opción: +$${extraPrice}") },
-                colors = AssistChipDefaults.assistChipColors(
-                    disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.85f),
-                    disabledLabelColor = GlassCardTextColor.copy(alpha = 0.95f)
                 )
-            )
+            }
         }
+        AssistChip(
+            onClick = {},
+            enabled = false,
+            label = { Text("Extras desde la segunda opción: +$$extraPrice") },
+            colors = AssistChipDefaults.assistChipColors(
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledLabelColor = MaterialTheme.colorScheme.onSurface
+            )
+        )
     }
 }
 
 @Composable
-private fun OrderPreviewCard(
-    selectedProteins: List<String>,
-    selectedBases: List<String>,
-    selectedVegetables: List<String>,
-    noRice: Boolean,
-    showNoRice: Boolean,
-    extrasPrice: Int
-) {
+private fun PremiumSectionCard(modifier: Modifier = Modifier, content: @Composable Column.() -> Unit) {
     Card(
-        colors = glassCardColors(),
-        shape = GlassCardShape,
-        border = BorderStroke(1.dp, GlassCardBorderColor),
-        elevation = glassCardElevation()
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
-        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text("Resumen del pedido", style = SectionTitleTextStyle)
-            Text(
-                "Proteína: ${selectedProteins.joinToString().ifBlank { "Sin selección" }}",
-                color = GlassCardSecondaryTextColor
-            )
-            Text(
-                "Base: ${selectedBases.joinToString().ifBlank { "Sin selección" }}",
-                color = GlassCardSecondaryTextColor
-            )
-            Text(
-                "Vegetal: ${selectedVegetables.joinToString().ifBlank { "Sin selección" }}",
-                color = GlassCardSecondaryTextColor
-            )
-            if (showNoRice) {
-                Text(
-                    if (noRice) "Arroz: Sin arroz" else "Arroz: Incluido",
-                    color = GlassCardSecondaryTextColor
-                )
-            }
-            Text(
-                "Subtotal extras: $${extrasPrice}",
-                fontWeight = FontWeight.Bold,
-                color = GlassCardTertiaryTextColor
-            )
-        }
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            content = content
+        )
     }
 }

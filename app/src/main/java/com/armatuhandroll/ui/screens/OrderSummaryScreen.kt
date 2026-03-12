@@ -32,19 +32,26 @@ fun OrderSummaryScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f))) {
-                Column(modifier = Modifier.padding(18.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.93f)),
+                shape = MaterialTheme.shapes.large,
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(18.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     Text(text = "🎉 Pedido confirmado", style = MaterialTheme.typography.headlineLarge)
                     Text(
-                        text = "Total pagado: $${total}",
+                        text = "Total pagado: $$total",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(vertical = 10.dp)
+                        color = MaterialTheme.colorScheme.secondary
                     )
                     Text(
-                        text = "Gracias por comprar en Arma tu Handroll.",
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        text = "Gracias por elegir Arma tu Handroll. Te contactaremos con el estado de entrega.",
+                        style = MaterialTheme.typography.bodyLarge
                     )
                     PrimaryActionButton(text = "Volver al inicio", onClick = onBackHome)
                 }

@@ -1,16 +1,12 @@
 package com.armatuhandroll.ui.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
@@ -22,16 +18,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.armatuhandroll.data.Product
 import com.armatuhandroll.ui.components.AppBackground
-import com.armatuhandroll.ui.components.AppTitle
+import com.armatuhandroll.ui.components.HeroPanel
 import com.armatuhandroll.ui.components.ProductCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,54 +41,47 @@ fun HomeScreen(
             containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0f),
             topBar = {
                 TopAppBar(
-                    title = { Text("Menú") },
+                    title = {
+                        Text(
+                            text = "Menú Gourmet",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    },
                     actions = {
                         IconButton(onClick = onCartClick) {
-                            BadgedBox(badge = { Badge {} }) {
+                            BadgedBox(badge = { Badge() }) {
                                 Icon(Icons.Filled.ShoppingCart, contentDescription = "Carrito")
                             }
                         }
-                    }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
+                        titleContentColor = MaterialTheme.colorScheme.onSurface
+                    )
                 )
             }
         ) { innerPadding ->
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(horizontal = 16.dp),
-                contentPadding = PaddingValues(vertical = 14.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                    .padding(horizontal = 16.dp)
             ) {
-                item(span = { GridItemSpan(2) }) {
-                    Surface(
-                        tonalElevation = 5.dp,
-                        shadowElevation = 8.dp,
-                        shape = MaterialTheme.shapes.large,
-                        color = Color.White.copy(alpha = 0.62f),
-                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.5f)),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            AppTitle(modifier = Modifier.fillMaxWidth())
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(
-                                text = "Elige tu base y personaliza ingredientes con estilo gourmet.",
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = Color(0xFF3E342E)
-                            )
-                        }
+                HeroPanel(modifier = Modifier.padding(top = 8.dp, bottom = 14.dp))
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 168.dp),
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(products) { product ->
+                        ProductCard(
+                            product = product,
+                            onClick = { onProductSelected(product) },
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                items(products) { product ->
-                    ProductCard(
-                        product = product,
-                        onClick = { onProductSelected(product) },
-                        modifier = Modifier.height(320.dp)
-                    )
                 }
             }
         }
