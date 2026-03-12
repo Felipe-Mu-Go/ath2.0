@@ -5,31 +5,62 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
 private val LightColors = lightColorScheme(
-    primary = Color(0xFFB33A2F),
-    onPrimary = Color(0xFFFFF8F2),
-    background = Color(0xFFFFF4EA),
-    surface = Color(0xFFFFFBF7),
-    onSurface = Color(0xFF231815),
-    onSurfaceVariant = Color(0xFF6A5854),
-    secondaryContainer = Color(0xFFF6D6BE),
-    primaryContainer = Color(0xFFF2C7AB),
-    scrim = Color(0xFF201414)
+    primary = SushiRed,
+    onPrimary = WarmIvory,
+    secondary = Terracotta,
+    onSecondary = WarmIvory,
+    tertiary = GoldSoft,
+    background = WarmIvory,
+    onBackground = TextPrimary,
+    surface = CreamSurface,
+    onSurface = TextPrimary,
+    surfaceVariant = BeigeSoft,
+    onSurfaceVariant = TextSecondary,
+    primaryContainer = ColorTokens.primaryContainer,
+    secondaryContainer = ColorTokens.secondaryContainer,
+    outline = ColorTokens.outline,
+    scrim = ColorTokens.scrim
 )
 
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFFFFB89A),
-    onPrimary = Color(0xFF5E190F),
-    background = Color(0xFF18110F),
-    surface = Color(0xFF251A16),
-    onSurface = Color(0xFFFFECE2),
-    onSurfaceVariant = Color(0xFFD8B8A9),
-    secondaryContainer = Color(0xFF5E4034),
-    primaryContainer = Color(0xFF5A2A23),
-    scrim = Color.Black
+    primary = ColorTokens.darkPrimary,
+    onPrimary = Charcoal900,
+    secondary = ColorTokens.darkSecondary,
+    onSecondary = Charcoal900,
+    tertiary = GoldSoft,
+    background = Charcoal900,
+    onBackground = WarmIvory,
+    surface = Charcoal700,
+    onSurface = WarmIvory,
+    surfaceVariant = ColorTokens.darkSurfaceVariant,
+    onSurfaceVariant = ColorTokens.darkOnSurfaceVariant,
+    primaryContainer = ColorTokens.darkPrimaryContainer,
+    secondaryContainer = ColorTokens.darkSecondaryContainer,
+    outline = ColorTokens.darkOutline,
+    scrim = ColorTokens.scrim
 )
+
+object ColorTokens {
+    val primaryContainer = SushiRed.copy(alpha = 0.16f)
+    val secondaryContainer = Terracotta.copy(alpha = 0.20f)
+    val outline = TextSecondary.copy(alpha = 0.35f)
+    val scrim = Charcoal900
+
+    val darkPrimary = ColorTokensLightBridge.warmCoral
+    val darkSecondary = ColorTokensLightBridge.sandStone
+    val darkSurfaceVariant = Charcoal700.copy(alpha = 0.85f)
+    val darkOnSurfaceVariant = WarmIvory.copy(alpha = 0.82f)
+    val darkPrimaryContainer = ColorTokensLightBridge.warmCoral.copy(alpha = 0.25f)
+    val darkSecondaryContainer = ColorTokensLightBridge.sandStone.copy(alpha = 0.23f)
+    val darkOutline = WarmIvory.copy(alpha = 0.25f)
+}
+
+private object ColorTokensLightBridge {
+    val warmCoral = SushiRed.copy(alpha = 0.88f)
+    val sandStone = BeigeSoft.copy(alpha = 0.92f)
+}
 
 @Composable
 fun ArmaTuHandrollTheme(
@@ -39,6 +70,7 @@ fun ArmaTuHandrollTheme(
     MaterialTheme(
         colorScheme = if (darkTheme) DarkColors else LightColors,
         typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }

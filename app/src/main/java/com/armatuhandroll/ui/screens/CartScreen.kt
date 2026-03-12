@@ -6,15 +6,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -38,22 +40,28 @@ fun CartScreen(
             topBar = {
                 TopAppBar(
                     title = { Text("Tu carrito") },
-                    navigationIcon = { TextButton(onClick = onBack) { Text("Volver") } }
+                    navigationIcon = { TextButton(onClick = onBack) { Text("Volver") } },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
+                    )
                 )
             },
             bottomBar = {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "Total: $${total}",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                    PrimaryActionButton(
-                        text = "Continuar",
-                        onClick = onCheckout,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                Surface(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f), shadowElevation = 8.dp) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Total: $$total",
+                            style = MaterialTheme.typography.headlineLarge,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        PrimaryActionButton(
+                            text = "Ir a pagar",
+                            onClick = onCheckout,
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = cartItems.isNotEmpty()
+                        )
+                    }
                 }
             }
         ) { innerPadding ->
@@ -65,7 +73,10 @@ fun CartScreen(
                         .padding(24.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text("Aún no agregas productos.")
+                    Text(
+                        "Aún no agregas productos.\nExplora el menú y arma tu combinación ideal.",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                 }
             } else {
                 LazyColumn(
@@ -75,18 +86,24 @@ fun CartScreen(
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(cartItems) { item ->
-                        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f))) {
+                    itemsIndexed(cartItems) { index, item ->
+                        Card(
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)
+                            )
+                        ) {
                             Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text(item.product.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
+                                Text("#${index + 1} · ${item.product.name}", style = MaterialTheme.typography.titleMedium)
                                 Text("Proteína: ${item.selectedProteins.joinToString().ifBlank { "Sin selección" }}")
                                 Text("Base: ${item.selectedBases.joinToString().ifBlank { "Sin selección" }}")
                                 Text("Vegetal: ${item.selectedVegetables.joinToString().ifBlank { "Sin selección" }}")
-                                if (item.product.supportsNoRice) {
-                                    Text(if (item.noRice) "Sin arroz" else "Con arroz")
-                                }
+                                if (item.product.supportsNoRice) Text(if (item.noRice) "Sin arroz" else "Con arroz")
                                 Text("Extras: $${item.extrasPrice}")
-                                Text("Subtotal: $${item.totalPrice}", fontWeight = FontWeight.SemiBold)
+                                Text(
+                                    "Subtotal: $${item.totalPrice}",
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
                             }
                         }
                     }
