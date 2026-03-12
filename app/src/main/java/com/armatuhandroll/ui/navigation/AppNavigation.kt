@@ -50,7 +50,7 @@ fun AppNavHost(cartItems: androidx.compose.runtime.snapshots.SnapshotStateList<C
             arguments = listOf(navArgument("productId") { type = NavType.StringType })
         ) { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId") ?: return@composable
-            val product = ProductRepository.products.first { it.id == productId }
+            val product = ProductRepository.products.firstOrNull { it.id == productId } ?: return@composable
             ProductCustomizationScreen(
                 product = product,
                 onBack = { navController.popBackStack() },

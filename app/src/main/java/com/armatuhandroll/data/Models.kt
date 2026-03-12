@@ -1,72 +1,76 @@
 package com.armatuhandroll.data
 
-data class IngredientOption(
-    val id: String,
-    val name: String,
-    val category: String,
-    val extraPrice: Int = 0
-)
+import androidx.annotation.DrawableRes
+import com.example.myapplication.R
+
+enum class IngredientCategory {
+    PROTEIN,
+    BASE,
+    VEGETABLE
+}
 
 data class Product(
     val id: String,
     val name: String,
     val basePrice: Int,
-    val imageEmoji: String,
     val description: String,
-    val ingredients: List<IngredientOption>
+    @DrawableRes val heroImageRes: Int?,
+    val supportsNoRice: Boolean = false
 )
 
 data class CartItem(
     val product: Product,
-    val selectedIngredients: List<IngredientOption>,
+    val selectedProteins: List<String>,
+    val selectedBases: List<String>,
+    val selectedVegetables: List<String>,
+    val noRice: Boolean = false,
     val quantity: Int = 1
 ) {
+    private val proteinExtras = (selectedProteins.size - 1).coerceAtLeast(0) * 1000
+    private val baseExtras = (selectedBases.size - 1).coerceAtLeast(0) * 1000
+    private val vegetableExtras = (selectedVegetables.size - 1).coerceAtLeast(0) * 500
+
+    val extrasPrice: Int
+        get() = proteinExtras + baseExtras + vegetableExtras
+
     val totalPrice: Int
-        get() = (product.basePrice + selectedIngredients.sumOf { it.extraPrice }) * quantity
+        get() = (product.basePrice + extrasPrice) * quantity
 }
 
 object ProductRepository {
-    private val defaultIngredients = listOf(
-        IngredientOption("base_1", "Arroz", "Base"),
-        IngredientOption("protein_1", "Salmón", "Proteína", extraPrice = 800),
-        IngredientOption("protein_2", "Camarón", "Proteína", extraPrice = 700),
-        IngredientOption("extra_1", "Palta", "Extra", extraPrice = 500),
-        IngredientOption("extra_2", "Queso crema", "Extra", extraPrice = 400),
-        IngredientOption("sauce_1", "Salsa teriyaki", "Salsa", extraPrice = 300)
-    )
+    val proteins = listOf("Pollo", "Carne", "Camarón", "Kanikama", "Palmito", "Champiñón")
+    val bases = listOf("Palta", "Pollo")
+    val vegetables = listOf("Cebollín", "Ciboulette", "Choclo")
 
     val products = listOf(
         Product(
             id = "handroll",
             name = "Handroll",
             basePrice = 5500,
-            imageEmoji = "🍣",
-            description = "Sabor clásico y fresco en formato handroll.",
-            ingredients = defaultIngredients
+            description = "Tu handroll personalizado, fresco y equilibrado.",
+            heroImageRes = R.drawable.handrroll
         ),
         Product(
             id = "sushiburger",
-            name = "SushiBurger",
+            name = "Sushiburger",
             basePrice = 6900,
-            imageEmoji = "🍔",
-            description = "Una fusión crujiente con estilo urbano.",
-            ingredients = defaultIngredients
+            description = "Fusión crujiente con corazón de sushi.",
+            heroImageRes = R.drawable.sushiburger
         ),
         Product(
             id = "sushipleto",
-            name = "SushiPleto",
+            name = "Sushipleto",
             basePrice = 6400,
-            imageEmoji = "🌯",
-            description = "Cargado, intenso y perfecto para antojos.",
-            ingredients = defaultIngredients
+            description = "Versión contundente para máximo antojo.",
+            heroImageRes = null
         ),
         Product(
             id = "gohan",
             name = "Gohan",
             basePrice = 5900,
-            imageEmoji = "🍚",
-            description = "Bowl cálido y reconfortante con toppings.",
-            ingredients = defaultIngredients
+            description = "Bowl cálido con arroz base y toppings a elección.",
+            heroImageRes = R.drawable.gohan,
+            supportsNoRice = true
         )
     )
 }
