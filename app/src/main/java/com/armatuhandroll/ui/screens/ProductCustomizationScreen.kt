@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,6 +28,7 @@ import com.armatuhandroll.data.Product
 import com.armatuhandroll.ui.components.AppBackground
 import com.armatuhandroll.ui.components.PrimaryActionButton
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductCustomizationScreen(
     product: Product,
