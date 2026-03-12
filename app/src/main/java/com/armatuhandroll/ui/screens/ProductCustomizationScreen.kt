@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
@@ -31,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.armatuhandroll.data.CartItem
@@ -38,6 +41,19 @@ import com.armatuhandroll.data.Product
 import com.armatuhandroll.data.ProductRepository
 import com.armatuhandroll.ui.components.AppBackground
 import com.armatuhandroll.ui.components.PrimaryActionButton
+
+private val GlassCardShape = RoundedCornerShape(24.dp)
+private val GlassCardContainerColor = Color.White.copy(alpha = 0.85f)
+private val GlassCardBorderColor = Color.White.copy(alpha = 0.45f)
+
+@Composable
+private fun glassCardColors() = CardDefaults.cardColors(
+    containerColor = GlassCardContainerColor,
+    contentColor = MaterialTheme.colorScheme.onSurface
+)
+
+@Composable
+private fun glassCardElevation() = CardDefaults.cardElevation(defaultElevation = 8.dp)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,7 +117,10 @@ fun ProductCustomizationScreen(
             ) {
                 item {
                     Card(
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f))
+                        colors = glassCardColors(),
+                        shape = GlassCardShape,
+                        border = BorderStroke(1.dp, GlassCardBorderColor),
+                        elevation = glassCardElevation()
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(text = product.description, style = MaterialTheme.typography.bodyLarge)
@@ -191,7 +210,12 @@ private fun IngredientSelectorSection(
     selectedOptions: MutableList<String>,
     extraPrice: Int
 ) {
-    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f))) {
+    Card(
+        colors = glassCardColors(),
+        shape = GlassCardShape,
+        border = BorderStroke(1.dp, GlassCardBorderColor),
+        elevation = glassCardElevation()
+    ) {
         Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -229,7 +253,12 @@ private fun OrderPreviewCard(
     showNoRice: Boolean,
     extrasPrice: Int
 ) {
-    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f))) {
+    Card(
+        colors = glassCardColors(),
+        shape = GlassCardShape,
+        border = BorderStroke(1.dp, GlassCardBorderColor),
+        elevation = glassCardElevation()
+    ) {
         Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text("Resumen del pedido", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Text("Proteína: ${selectedProteins.joinToString().ifBlank { "Sin selección" }}")
