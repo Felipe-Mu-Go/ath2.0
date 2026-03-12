@@ -3,6 +3,7 @@ package com.armatuhandroll.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -246,7 +247,7 @@ private fun IngredientSelectorSection(
 }
 
 @Composable
-private fun PremiumSectionCard(modifier: Modifier = Modifier, content: @Composable Column.() -> Unit) {
+private fun PremiumSectionCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(22.dp),
