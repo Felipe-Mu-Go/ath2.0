@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,19 +32,23 @@ fun OrderSummaryScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "🎉 Pedido confirmado", style = MaterialTheme.typography.headlineMedium)
-            Text(
-                text = "Total pagado: $${total}",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 10.dp)
-            )
-            Text(
-                text = "Gracias por comprar en ArmaTuHandroll.",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            PrimaryActionButton(text = "Volver al inicio", onClick = onBackHome)
+            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f))) {
+                Column(modifier = Modifier.padding(18.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "🎉 Pedido confirmado", style = MaterialTheme.typography.headlineLarge)
+                    Text(
+                        text = "Total pagado: $${total}",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                    Text(
+                        text = "Gracias por comprar en Arma tu Handroll.",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                    PrimaryActionButton(text = "Volver al inicio", onClick = onBackHome)
+                }
+            }
         }
     }
 }

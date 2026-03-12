@@ -2,14 +2,15 @@ package com.armatuhandroll.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -75,15 +76,18 @@ fun CartScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(cartItems) { item ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(item.product.name, fontWeight = FontWeight.Bold)
-                                Text("Ingredientes: ${item.selectedIngredients.joinToString { it.name }.ifBlank { "Sin extras" }}")
+                        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f))) {
+                            Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                Text(item.product.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
+                                Text("Proteína: ${item.selectedProteins.joinToString().ifBlank { "Sin selección" }}")
+                                Text("Base: ${item.selectedBases.joinToString().ifBlank { "Sin selección" }}")
+                                Text("Vegetal: ${item.selectedVegetables.joinToString().ifBlank { "Sin selección" }}")
+                                if (item.product.supportsNoRice) {
+                                    Text(if (item.noRice) "Sin arroz" else "Con arroz")
+                                }
+                                Text("Extras: $${item.extrasPrice}")
+                                Text("Subtotal: $${item.totalPrice}", fontWeight = FontWeight.SemiBold)
                             }
-                            Text("$${item.totalPrice}")
                         }
                     }
                 }

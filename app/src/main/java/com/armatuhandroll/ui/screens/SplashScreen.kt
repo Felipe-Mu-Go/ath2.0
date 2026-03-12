@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +20,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(onNavigateToHome: () -> Unit) {
     LaunchedEffect(Unit) {
-        delay(1200)
+        delay(1000)
         onNavigateToHome()
     }
 
@@ -31,12 +32,16 @@ fun SplashScreen(onNavigateToHome: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AppTitle()
-            Text(
-                text = "Diseña tu pedido perfecto",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Medium
-            )
+            Surface(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f), shape = MaterialTheme.shapes.large) {
+                Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 18.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    AppTitle()
+                    Text(
+                        text = "Diseña tu pedido perfecto",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
         }
     }
 }
