@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -28,6 +29,7 @@ import com.armatuhandroll.ui.components.AppBackground
 import com.armatuhandroll.ui.components.AppTitle
 import com.armatuhandroll.ui.components.ProductCard
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     products: List<Product>,
