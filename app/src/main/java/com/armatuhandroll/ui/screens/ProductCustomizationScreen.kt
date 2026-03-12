@@ -43,13 +43,15 @@ import com.armatuhandroll.ui.components.AppBackground
 import com.armatuhandroll.ui.components.PrimaryActionButton
 
 private val GlassCardShape = RoundedCornerShape(24.dp)
-private val GlassCardContainerColor = Color.White.copy(alpha = 0.85f)
-private val GlassCardBorderColor = Color.White.copy(alpha = 0.45f)
+private val GlassCardContainerColor = Color.White.copy(alpha = 0.55f)
+private val GlassCardBorderColor = Color.White.copy(alpha = 0.35f)
+private val GlassCardTextColor = Color(0xFF231815)
+private val GlassCardSecondaryTextColor = Color(0xFF3B2B26)
 
 @Composable
 private fun glassCardColors() = CardDefaults.cardColors(
     containerColor = GlassCardContainerColor,
-    contentColor = MaterialTheme.colorScheme.onSurface
+    contentColor = GlassCardTextColor
 )
 
 @Composable
@@ -127,13 +129,13 @@ fun ProductCustomizationScreen(
                             Text(
                                 text = "Incluye 1 proteína + 1 base + 1 vegetal",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                color = GlassCardSecondaryTextColor,
                                 modifier = Modifier.padding(top = 6.dp)
                             )
                             Text(
                                 text = "Extras: proteína/base +$1000 · vegetal +$500",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = GlassCardSecondaryTextColor
                             )
                         }
                     }
@@ -218,7 +220,7 @@ private fun IngredientSelectorSection(
     ) {
         Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = GlassCardSecondaryTextColor)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 options.forEach { option ->
                     val isSelected = selectedOptions.contains(option)
@@ -229,7 +231,10 @@ private fun IngredientSelectorSection(
                         },
                         label = { Text(option) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f),
+                            selectedLabelColor = GlassCardTextColor,
+                            labelColor = GlassCardTextColor.copy(alpha = 0.9f),
+                            containerColor = Color.White.copy(alpha = 0.42f)
                         )
                     )
                 }
@@ -238,7 +243,10 @@ private fun IngredientSelectorSection(
                 onClick = {},
                 enabled = false,
                 label = { Text("Extras desde la segunda opción: +$${extraPrice}") },
-                colors = AssistChipDefaults.assistChipColors(disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer)
+                colors = AssistChipDefaults.assistChipColors(
+                    disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.78f),
+                    disabledLabelColor = GlassCardTextColor.copy(alpha = 0.95f)
+                )
             )
         }
     }
