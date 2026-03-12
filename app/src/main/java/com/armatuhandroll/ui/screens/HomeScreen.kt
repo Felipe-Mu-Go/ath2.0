@@ -1,6 +1,8 @@
 package com.armatuhandroll.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.armatuhandroll.data.Product
 import com.armatuhandroll.ui.components.AppBackground
@@ -66,18 +69,20 @@ fun HomeScreen(
             ) {
                 item(span = { GridItemSpan(2) }) {
                     Surface(
-                        tonalElevation = 4.dp,
+                        tonalElevation = 5.dp,
+                        shadowElevation = 8.dp,
                         shape = MaterialTheme.shapes.large,
-                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
+                        color = Color.White.copy(alpha = 0.62f),
+                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.5f)),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        androidx.compose.foundation.layout.Column(modifier = Modifier.padding(16.dp)) {
+                        Column(modifier = Modifier.padding(16.dp)) {
                             AppTitle(modifier = Modifier.fillMaxWidth())
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
                                 text = "Elige tu base y personaliza ingredientes con estilo gourmet.",
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = Color(0xFF3E342E)
                             )
                         }
                     }

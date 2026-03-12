@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,11 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.armatuhandroll.data.Product
 import com.example.myapplication.R
@@ -51,7 +55,7 @@ fun AppBackground(
                 .background(
                     Brush.verticalGradient(
                         listOf(
-                            MaterialTheme.colorScheme.scrim.copy(alpha = 0.55f),
+                            Color.Black.copy(alpha = 0.58f),
                             MaterialTheme.colorScheme.scrim.copy(alpha = 0.35f),
                             MaterialTheme.colorScheme.background.copy(alpha = 0.9f)
                         )
@@ -64,12 +68,27 @@ fun AppBackground(
 
 @Composable
 fun AppTitle(modifier: Modifier = Modifier) {
-    Text(
-        text = "Arma tu Handroll",
-        style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.ExtraBold),
-        color = MaterialTheme.colorScheme.onPrimary,
+    Box(
         modifier = modifier
-    )
+            .clip(RoundedCornerShape(20.dp))
+            .background(Color.Black.copy(alpha = 0.28f))
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+    ) {
+        Text(
+            text = "Arma tu Handroll",
+            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.ExtraBold),
+            color = Color.White,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            textAlign = TextAlign.Center,
+            shadow = Shadow(
+                color = Color.Black.copy(alpha = 0.4f),
+                offset = Offset(0f, 2f),
+                blurRadius = 6f
+            )
+        )
+    }
 }
 
 @Composable
