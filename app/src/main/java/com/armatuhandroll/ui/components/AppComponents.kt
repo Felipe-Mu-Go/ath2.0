@@ -78,6 +78,11 @@ fun ProductCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val productImageRes = product.heroImageRes ?: when (product.id) {
+        "sushipleto" -> R.drawable.sushiburger
+        else -> R.drawable.fondo
+    }
+
     Card(
         modifier = modifier
             .clip(RoundedCornerShape(24.dp))
@@ -108,6 +113,16 @@ fun ProductCard(
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Image(
+                painter = painterResource(id = productImageRes),
+                contentDescription = "Imagen de ${product.name}",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(96.dp)
+                    .clip(RoundedCornerShape(14.dp))
             )
         }
     }

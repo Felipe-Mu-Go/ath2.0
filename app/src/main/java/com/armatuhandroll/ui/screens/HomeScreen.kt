@@ -87,7 +87,7 @@ fun HomeScreen(
                     ProductCard(
                         product = product,
                         onClick = { onProductSelected(product) },
-                        modifier = Modifier.height(220.dp)
+                        modifier = Modifier.height(320.dp)
                     )
                 }
             }
