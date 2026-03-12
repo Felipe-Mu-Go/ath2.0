@@ -76,17 +76,19 @@ fun AppTitle(modifier: Modifier = Modifier) {
     ) {
         Text(
             text = "Arma tu Handroll",
-            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.ExtraBold),
+            style = MaterialTheme.typography.headlineLarge.copy(
+                fontWeight = FontWeight.ExtraBold,
+                shadow = Shadow(
+                    color = Color.Black.copy(alpha = 0.4f),
+                    offset = Offset(0f, 2f),
+                    blurRadius = 6f
+                )
+            ),
             color = Color.White,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            textAlign = TextAlign.Center,
-            shadow = Shadow(
-                color = Color.Black.copy(alpha = 0.4f),
-                offset = Offset(0f, 2f),
-                blurRadius = 6f
-            )
+            textAlign = TextAlign.Center
         )
     }
 }
